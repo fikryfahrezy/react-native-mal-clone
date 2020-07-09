@@ -15,6 +15,8 @@ const HomeStack = () => {
         component={Anime}
         options={(props) => ({
           title: props.route.params.params.title,
+          headerTransparent: true,
+          headerTintColor: '#FFFFFF',
         })}
       />
     </Navigator>

@@ -1,17 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import Animes from '../animes/Animes';
 import Search from './Search';
 
 const Home = (props) => {
   return (
-    <View>
-      <Search />
+    <View style={styles.container}>
+      <Search {...props} />
       <Animes {...props} />
     </View>
   );
 };
 
-export default Home;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#1F1B24',
+    alignItems: 'center',
+    paddingTop: 22,
+  },
+});
 
-const styles = StyleSheet.create({});
+export default Home;
