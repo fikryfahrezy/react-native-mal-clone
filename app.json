@@ -4,11 +4,13 @@
     "slug": "AnimeFinder",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/sakura.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1F1B24",
+      "justifyContent": "center",
+      "alignItems": "center"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,7 +19,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sanbercode.sanberapp",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.sanbercode.sanberapp",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
