@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getAnime, setLoading } from '../../actions/animeActions';
@@ -15,13 +15,11 @@ import IconMci from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const DEVICE = Dimensions.get('screen');
 
-class Separator extends React.Component {
-  render() {
-    return <View style={styles.separator} />;
-  }
-}
+const Separator = () => <View style={styles.separator} />;
 
 const Anime = (props) => {
+  const [load, setLoad] = useState(true);
+
   const {
     route: {
       params: { params },
@@ -34,12 +32,13 @@ const Anime = (props) => {
   useEffect(() => {
     setLoading();
     getAnime(params.id);
+    setLoad(false);
   }, []);
 
   return (
     <View style={styles.container}>
       <StatusBar style="inverted" />
-      {loading ? (
+      {loading || load ? (
         <View style={styles.loadingComponent}>
           <IconMci name="clock" size={100} color="#332C3C" />
           <Text style={styles.loadingText}>Waiting ...</Text>
@@ -158,10 +157,10 @@ const Anime = (props) => {
             <View style={styles.mid}>
               <Text style={styles.title}>Related Anime</Text>
               <Separator />
-              {/* <Text style={styles.subTitle}>
-                  <Text style={styles.subTitleList}>English: </Text>
-                  {anime.title_english}
-                </Text> */}
+              <Text style={styles.subTitle}>
+                <Text style={styles.subTitleList}>English: </Text>
+                {anime.title_english}
+              </Text>
             </View>
             <View style={styles.bottom}>
               <View style={styles.bottomChild}>

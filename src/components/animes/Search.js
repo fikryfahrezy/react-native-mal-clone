@@ -33,11 +33,12 @@ const Search = (props) => {
         <IconIon name="ios-menu" size={40} color="#42394C" />
       </TouchableOpacity>
       <TextInput
+        value={text}
         style={styles.formInput}
         placeholder="Search..."
         placeholderTextColor="#919191"
         onSubmitEditing={onSubmit}
-        onChangeText={(text) => setText(text)}
+        onChangeText={(txt) => setText(txt)}
       />
       <TouchableOpacity
         onPress={toggleDrawer}

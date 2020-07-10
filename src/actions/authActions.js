@@ -1,10 +1,15 @@
-import { LOGIN_SUCCESS, AUTH_ERROR, CLEAR_AUTH_ERROR } from './types';
+import {
+  LOGIN_SUCCESS,
+  AUTH_ERROR,
+  CLEAR_AUTH_ERROR,
+  LOGOUT_SUCCESS,
+} from './types';
 
 export const login = (data) => {
   const { identifier, password } = data;
 
-  const identifyCheck = 'steve@gmail.com';
-  const passCheck = '123456';
+  const identifyCheck = 'id';
+  const passCheck = '123';
 
   if (identifier !== identifyCheck || password !== passCheck) {
     return {
@@ -19,6 +24,12 @@ export const login = (data) => {
       user: 'Mamang Steve',
       token: 'token',
     },
+  };
+};
+
+export const logout = () => {
+  return {
+    type: LOGOUT_SUCCESS,
   };
 };
 

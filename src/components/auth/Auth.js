@@ -48,7 +48,7 @@ const Auth = (props) => {
     login,
     auth,
     clearError,
-    navigation: { navigate },
+    navigation: { replace },
   } = props;
 
   const onChangeValue = (name, value) => {
@@ -75,19 +75,23 @@ const Auth = (props) => {
   };
 
   useEffect(() => {
-    // if (auth.error.length > 0) {
-    //   setErr(true);
-    //   setTimeout(() => {
-    //     clearError();
-    //     setErr(false);
-    //   }, 3000);
-    // }
+    setUser({
+      identifier: '',
+      password: '',
+    });
 
-    // if (auth.user) {
-    //   navigate('Home');
-    // }
-    navigate('Home');
-  }, [auth.error]);
+    if (auth.error.length > 0) {
+      setErr(true);
+      setTimeout(() => {
+        clearError();
+        setErr(false);
+      }, 3000);
+    }
+
+    if (auth.user) {
+      replace('Home');
+    }
+  }, [auth.error, auth.user]);
 
   return (
     <View style={styles.container}>
@@ -105,7 +109,7 @@ const Auth = (props) => {
             value={identifier}
             name="identifier"
             onChangeText={onChangeValue}
-            placeholder="email@email.com"
+            placeholder="id"
             placeholderTextColor="#919191"
             style={styles.formInput}
             editable={false}
@@ -118,7 +122,7 @@ const Auth = (props) => {
           <TextInput
             value={password}
             name="password"
-            placeholder="Password"
+            placeholder="123"
             placeholderTextColor="#919191"
             secureTextEntry={true}
             style={styles.formInput}
