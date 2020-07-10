@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -11,54 +11,57 @@ import {
   FlatList,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { searchAnimes, getAnime } from '../../actions/animeActions';
-import axios from 'axios';
+import IconFa from 'react-native-vector-icons/FontAwesome';
 
 const DEVICE = Dimensions.get('screen');
 
-const Card = (props) => {
-  const { navigation } = props;
-
-  return (
-    <View style={styles.card}>
-      <Image
-        source={{
-          uri: 'https://cdn.myanimelist.net/images/anime/10/68209.jpg',
-        }}
-        style={styles.cardImage}
-      />
-      <Text style={styles.cardTitle} numberOfLines={2}>
-        Animessssdfsafsafsafasfassdfasfasfasfasfsadfsafasfasfas
-      </Text>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.push('Detail', {
-            params: {
-              id: '28205',
-              title: 'Anime Title',
-            },
-          })
-        }
-        style={styles.detailButton}
-      >
-        <Text style={styles.detailText}>DETAIL</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
 const Animes = (props) => {
-  // const { navigation } = props;
-
-  // useEffect(() => {
-  // props.searchAnimes('naruto');
-  // props.getAnime('28205');
-  // }, []);
+  const {
+    anime: { animes },
+    navigation,
+  } = props;
 
   return (
     <View>
       <StatusBar style="inverted" />
-      <Card {...props} />
+      {animes === null || animes.length === 0 ? (
+        <View style={styles.loadingComponent}>
+          <IconFa name="search" size={200} color="#332C3C" />
+          <Text style={styles.loadingText}>Find your Anime ...</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={animes}
+          keyExtractor={(data) => data.mal_id.toString()}
+          numColumns={2}
+          renderItem={(anime) => (
+            <View style={styles.card}>
+              <Image
+                source={{
+                  uri: `${anime.item.image_url}`,
+                }}
+                style={styles.cardImage}
+              />
+              <Text style={styles.cardTitle} numberOfLines={2}>
+                {anime.item.title}
+              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.push('Detail', {
+                    params: {
+                      id: `${anime.item.mal_id}`,
+                      title: `${anime.item.title}`,
+                    },
+                  })
+                }
+                style={styles.detailButton}
+              >
+                <Text style={styles.detailText}>DETAIL</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 };
@@ -67,9 +70,12 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#42394C',
     width: DEVICE.width * 0.45,
-    height: DEVICE.height * 0.45,
     borderRadius: 5,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 10,
+    marginVertical: 10,
+    padding: 10,
   },
   cardImage: {
     resizeMode: 'contain',
@@ -98,16 +104,25 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 3,
   },
+  loadingComponent: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 100,
+  },
+  loadingText: {
+    fontSize: 25,
+    lineHeight: 51,
+    color: '#42394C',
+    marginTop: 50,
+  },
 });
 
 Animes.propTypes = {
   anime: PropTypes.object,
-  searchAnimes: PropTypes.func.isRequired,
-  getAnime: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   anime: state.anime,
 });
 
-export default connect(mapStateToProps, { searchAnimes, getAnime })(Animes);
+export default connect(mapStateToProps, null)(Animes);

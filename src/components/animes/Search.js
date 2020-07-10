@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { searchAnimes } from '../../actions/animeActions';
 import {
   View,
   Text,
@@ -13,9 +16,16 @@ import IconFa from 'react-native-vector-icons/FontAwesome';
 const DEVICE = Dimensions.get('screen');
 
 const Search = (props) => {
+  const [text, setText] = useState('');
+
   const {
     navigation: { toggleDrawer },
+    searchAnimes,
   } = props;
+
+  const onSubmit = () => {
+    searchAnimes(text);
+  };
 
   return (
     <View style={styles.container}>
@@ -26,8 +36,14 @@ const Search = (props) => {
         style={styles.formInput}
         placeholder="Search..."
         placeholderTextColor="#919191"
+        onSubmitEditing={onSubmit}
+        onChangeText={(text) => setText(text)}
       />
-      <TouchableOpacity onPress={toggleDrawer} style={styles.search}>
+      <TouchableOpacity
+        onPress={toggleDrawer}
+        style={styles.search}
+        onPress={onSubmit}
+      >
         <IconFa name="search" size={20} color="#F08BBD" />
       </TouchableOpacity>
     </View>
@@ -61,4 +77,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Search;
+Search.propTypes = {
+  searchAnimes: PropTypes.func.isRequired,
+};
+
+export default connect(null, { searchAnimes })(Search);

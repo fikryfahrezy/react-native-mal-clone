@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Animes from '../animes/Animes';
-import Search from './Search';
+import Search from '../animes/Search';
 
 const Home = (props) => {
   return (
